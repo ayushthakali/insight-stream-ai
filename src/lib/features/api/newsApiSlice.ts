@@ -14,7 +14,7 @@ export interface Article {
 interface NewsResponse {
   status: string;
   totalResults: number;
-  article: Article[];
+  articles: Article[];
 }
 
 const API_KEY = process.env.NEXT_PUBLIC_NEWS_API_KEY;

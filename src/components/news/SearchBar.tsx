@@ -1,20 +1,20 @@
 "use client";
 
-import { useDebounce } from "@/src/hooks/useDebounce";
-import { useGetNewsQuery } from "@/src/lib/features/api/newsApiSlice";
 import { Loader2, Search } from "lucide-react";
-import { useState } from "react";
 
-export default function SearchBar() {
-  const [searchTerm, setSearchTerm] = useState("");
+interface SearchBarProps {
+  isFetching: boolean;
+  searchTerm: string;
+  setSearchTerm: (searchTerm: string) => void;
+  totalResults: number | undefined;
+}
 
-  const debouncedSearch = useDebounce(searchTerm, 500);
-
-  const { data, isFetching, error } = useGetNewsQuery(
-    { q: debouncedSearch || "latest", page: 1 },
-    { skip: debouncedSearch.length < 3 && debouncedSearch !== "" },
-  );
-
+export default function SearchBar({
+  isFetching,
+  searchTerm,
+  setSearchTerm,
+  totalResults,
+}: SearchBarProps) {
   return (
     <div className="w-full max-w-2xl mx-auto my-8 px-4">
       <div className="relative group">
@@ -35,14 +35,9 @@ export default function SearchBar() {
       </div>
 
       <div className="text-center mt-4">
-        {data && (
+        {totalResults && (
           <p className="text-[10px] text-zinc-500 uppercase tracking-widest font-bold">
-            Found {data.totalResults.toLocaleString()} results
-          </p>
-        )}
-        {error && (
-          <p className="text-[10px] text-red-500 font-bold">
-            API Error - Check Key
+            Found {totalResults.toLocaleString()} results
           </p>
         )}
       </div>
