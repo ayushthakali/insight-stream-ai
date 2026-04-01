@@ -9,7 +9,7 @@ function NewsCard({ article }: { article: Article }) {
   return (
     <div className="flex gap-4 p-4 h-full bg-zinc-900 border border-zinc-800 rounded-lg hover:border-violet-500/50 transition-all group">
       {article.urlToImage && (
-        <figure className="relative w-36 h-full">
+        <figure className="relative w-36 h-full flex-shrink-0">
           <Image
             src={article.urlToImage}
             alt="url to image"
@@ -18,7 +18,7 @@ function NewsCard({ article }: { article: Article }) {
           />
         </figure>
       )}
-      <div className="flex-1 flex flex-col justify-between">
+      <div className="flex-1 flex flex-col justify-between space-y-8">
         <div>
           <h3 className="text-white font-semibold line-clamp-1">
             {article.title}
@@ -63,7 +63,7 @@ function NewsCard({ article }: { article: Article }) {
         </div>
 
         {summary && (
-          <div className="mt-4 p-3 bg-violet-500/5 border-l-2 border-violet-500 rounded text-xs text-zinc-300 animate-in fade-in slide-in-from-top-2">
+          <div className="p-3 bg-violet-500/5 border-l-2 border-violet-500 rounded text-xs text-zinc-300 animate-in fade-in slide-in-from-top-2">
             <p className="font-bold text-violet-400 mb-1 flex items-center gap-1">
               <Brain size={12} /> Executive Summary:
             </p>

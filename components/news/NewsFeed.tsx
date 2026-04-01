@@ -15,6 +15,7 @@ const NewsFeed = ({ articles }: NewsFeedProps) => {
     getScrollElement: () => parentRef.current, // Which DOM element is scrollable — the container div
     estimateSize: () => 200, // Virtualizer can't know the real height until it render, So you give it a rough estimate upfront — 200px per card, It uses this to calculate the total scrollable height, e.g. 1000 articles × 200px = 200,000px total scroll area
     overscan: 5, // Renders 5 extra items ABOVE and BELOW the visible area. So if items 10-20 are visible, it actually renders 5-25
+    measureElement: (el) => el.getBoundingClientRect().height, //measures the actual DOM element once it's rendered
   });
   return (
     <div
@@ -38,9 +39,10 @@ const NewsFeed = ({ articles }: NewsFeedProps) => {
           return (
             <div
               key={virtualRow.key}
+              data-index={virtualRow.index} // Required for measureElement
+              ref={rowVirtualizer.measureElement} // Connect the measurement here!
               className="absolute top-0 left-0 w-full p-2"
               style={{
-                height: `${virtualRow.size}px`,
                 transform: `translateY(${virtualRow.start}px)`, //Every card is `absolute top-0` — they all start at the top of the relative container. The `translateY` then pushes each one to its correct position:
               }}
             >
