@@ -9,19 +9,26 @@ import NewsFeed from "../components/news/NewsFeed";
 
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState("");
+  const [page, setPage] = useState(1);
 
   const debouncedSearch = useDebounce(searchTerm, 500);
 
   const { data, isFetching, isLoading, error } = useGetNewsQuery(
-    { q: debouncedSearch || "latest", page: 1 },
+    { q: debouncedSearch || "latest", page },
     { skip: debouncedSearch.length < 3 && debouncedSearch !== "" },
   );
+
+  const fetchNextPage = () => {
+    if (!isFetching) {
+      setPage((prev) => prev + 1);
+    }
+  };
 
   return (
     <main className="min-h-screen bg-black text-white p-4 md:p-8">
       <div className="max-w-5xl mx-auto space-y-8">
         <header className="text-center space-y-2">
-          <h1 className="text-5xl font-extrabold tracking-tighter bg-gradient-to-r from-violet-400 via-fuchsia-500 t0-amber-400 bg-clip-text text-transparent">
+          <h1 className="text-5xl font-extrabold tracking-tighter bg-gradient-to-r from-violet-400 via-fuchsia-500 to-amber-400 bg-clip-text text-transparent">
             InsightStream AI
           </h1>
           <p className="text-zinc-500 font-medium">
@@ -51,7 +58,12 @@ export default function Home() {
             </p>
           </div>
         ) : (
-          <NewsFeed articles={data?.articles || []} />
+          <NewsFeed
+            articles={data?.articles || []}
+            isFetching={isFetching}
+            hasMore={(data?.articles.length ?? 0) < 100}
+            fetchNextPage={fetchNextPage}
+          />
         )}
       </div>
     </main>
