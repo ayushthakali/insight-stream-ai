@@ -10,7 +10,6 @@ import NewsFeed from "../components/news/NewsFeed";
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState("");
   const [page, setPage] = useState(1);
-
   const debouncedSearch = useDebounce(searchTerm, 500);
 
   const { data, isFetching, isLoading, error } = useGetNewsQuery(
@@ -22,6 +21,11 @@ export default function Home() {
     if (!isFetching) {
       setPage((prev) => prev + 1);
     }
+  };
+
+  const handleSearchTerm = (value: string) => {
+    setPage(1);
+    setSearchTerm(value);
   };
 
   return (
@@ -38,7 +42,7 @@ export default function Home() {
         <SearchBar
           isFetching={isFetching}
           searchTerm={searchTerm}
-          setSearchTerm={setSearchTerm}
+          setSearchTerm={handleSearchTerm}
           totalResults={data?.totalResults}
         />
         {isLoading ? (

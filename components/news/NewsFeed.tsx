@@ -21,10 +21,18 @@ const NewsFeed = ({
 }: NewsFeedProps) => {
   const [scrollProgress, setScrollProgress] = useState(0);
   const parentRef = useRef<HTMLDivElement>(null);
+  const listTopRef = useRef<HTMLDivElement>(null);
+  const firstArticleUrl = articles[0]?.url;
+
+  useEffect(() => {
+    if (listTopRef.current) {
+      listTopRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [firstArticleUrl]);
 
   // Virtualization
   const rowVirtualizer = useVirtualizer({
-    count: articles.length, // Total number of items in your full list.Virtualizer needs to know this to calculate total scroll height
+    count: articles.length, // Total number of items in your full list. Virtualizer needs to know this to calculate total scroll height
     getScrollElement: () => parentRef.current, // Which DOM element should I watch for scrolling?
     estimateSize: () => 200, // Virtualizer can't know the real height until it render, So you give it a rough estimate upfront — 200px per card, It uses this to calculate the total scrollable height, e.g. 1000 articles × 200px = 200,000px total scroll area
     overscan: 5, // Renders 5 extra items ABOVE and BELOW the visible area. So if items 10-20 are visible, it actually renders 5-25
@@ -78,6 +86,7 @@ const NewsFeed = ({
             position: "relative", //position: relative is required because every card inside uses position: absolute
           }}
         >
+          <div ref={listTopRef} />
           {virtualItems.map((virtualRow) => {
             //getVirtualItems() only returns the items currently visible + overscan
             const article = articles[virtualRow.index];
