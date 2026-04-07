@@ -7,7 +7,7 @@
 ## 🌟 Key Features
 
 - **AI-Powered Summaries**  
-  Integrates Gemini 1.5 Flash to generate concise 3-point executive summaries for any article.
+  Integrates Gemini-2.5-flash to generate concise 3-point executive summaries for any article.
 
 - **Infinite Virtualized Scrolling**  
   Uses `@tanstack/react-virtual` to render thousands of items with zero lag.
@@ -36,7 +36,7 @@
 
 ## 🏗️ Technical Architecture
 
-### 1. Performance Pillars
+### Performance Pillars
 
 The application is built on five core performance optimization strategies:
 
@@ -57,18 +57,10 @@ The application is built on five core performance optimization strategies:
 
 ---
 
-### 2. API Design
+### API Design
 
 A secure Next.js Route Handler (`/api/summarize`) is used to communicate with the Gemini API.  
 This ensures API keys are never exposed on the client side.
 
 ---
 
-## 🚀 Getting Started
-
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/yourusername/insightstream-ai.git
-cd insightstream-ai
-```
